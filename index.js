@@ -1,29 +1,27 @@
-const inquirer = require('inquirer')
-const Manager = require('./lib/Manager.js')
-const Engineer = require('./lib/Engineer.js')
-const Intern = require('./lib/Intern.js')
+const inquirer = require('inquirer');
+const Manager = require('./lib/Manager.js');
+const Engineer = require('./lib/Engineer.js');
+const Intern = require('./lib/Intern.js');
 const { writeFile, copyFile } = require('./lib/generateFile.js');
 const generateHTML = require('./src/html-template.js');
 let id = 0;
-
 
 function generateid() {
     id++;
     return id;
 }
 
-const managerPrompt = () => {
-  
+const promptManager = () => {
     return inquirer.prompt([
         {
             type: 'input',
             name: 'managerName',
-            message: "Please enter the manager's name:",
+            message: "Please enter the manager's name: (Required)",
             validate: managerName => {
                 if (managerName) {
                     return true;
                 } else {
-                    console.log("Error - please enter manager's name")
+                    console.log("Please enter a manager's name!")
                     return false;
                 }
             }
@@ -31,12 +29,12 @@ const managerPrompt = () => {
         {
             type: 'input',
             name: 'managerEmail',
-            message: "Please enter the manager's email:",
+            message: "Please enter the manager's Email: (Required)",
             validate: managerEmail => {
                 if (managerEmail) {
                     return true;
                 } else {
-                    console.log("Error - please enter manager's email")
+                    console.log("Please enter a manager's Email!")
                     return false;
                 }
             }
@@ -44,12 +42,12 @@ const managerPrompt = () => {
         {
             type: 'input',
             name: 'managerNumber',
-            message: "Please enter the manager's office number:",
+            message: "Please enter the manager's office number: (Required)",
             validate: managerNumber => {
                 if (managerNumber) {
                     return true;
                 } else {
-                    console.log("Error - please enter the manager's office number")
+                    console.log("Please enter a manager's office number!")
                     return false;
                 }
             }
@@ -57,51 +55,45 @@ const managerPrompt = () => {
     ])
 }
 
-const employeePrompt = employeeData => {
-
+const promptEmployee = employeeData => {
     if (!employeeData.employees) {
         employeeData.employees = [];
     }
-
     return inquirer.prompt([
-
             {
                 type: 'confirm',
                 name: 'newEmployee',
                 message: "Would you like to add a new Employee?",
                 default: true
             },
-
             {
                 type: 'input',
                 name: 'employeeName',
-                message: "Please enter the employee's name:",
+                message: "Please enter the employee's name: (Required)",
                 when: confirmEmployee => confirmEmployee.newEmployee,
                 validate: name => {
                     if (name) {
                         return true;
                     } else {
-                        console.log("Error - please enter a name");
+                        console.log("Please enter a name!");
                         return false;
                     }
                 }
             },
-
             {
                 type: 'input',
                 name: 'employeeEmail',
-                message: "Please enter the employee's Email:",
+                message: "Please enter the employee's Email: (Required)",
                 when: confirmEmployee => confirmEmployee.newEmployee,
                 validate: email => {
                     if (email) {
                         return true;
                     } else {
-                        console.log("Error - please enter an email");
+                        console.log("Please enter a Email!");
                         return false;
                     }
                 }
             },
-
             {
                 type: 'list',
                 name: 'employeeRole',
@@ -109,44 +101,39 @@ const employeePrompt = employeeData => {
                 when: confirmEmployee => confirmEmployee.newEmployee,
                 choices: ['Engineer', 'Intern']
             },
-
             {
                 type: 'input',
                 name: 'github',
-                message: "Enter github username:",
+                message: "Enter github username: (Required)",
                 when: role => role.employeeRole === 'Engineer',
                 validate: github => {
                     if (github) {
                         return true;
                     } else {
-                        console.log("Error - please enter github");
+                        console.log("Please enter a github username!");
                         return false;
                     }
                 }
             },
-
             {
                 type: 'input',
                 name: 'school',
-                message: "Please enter school name:",
+                message: "Enter school name: (Required)",
                 when: role => role.employeeRole === 'Intern',
                 validate: school => {
                     if (school) {
                         return true;
                     } else {
-                        console.log("Error - please enter a school name");
+                        console.log("Please enter a School Name!");
                         return false;
                     }
                 }
             }
         ])
         .then(newEmployee => {
-
             employeeData.employees.push(newEmployee);
-
             if (newEmployee.newEmployee) {
-
-                return employeePrompt(employeeData)
+                return promptEmployee(employeeData)
             } else {
                 return employeeData;
             }
