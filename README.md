@@ -12,4 +12,6 @@
 
 <img src="./challenge-img.png">
 
+
+Link to Video: https://github.com/fayazl/challenge-10-team-builder/blob/main/video.webm
 Repo Link: https://github.com/fayazl/challenge-10-team-builder
