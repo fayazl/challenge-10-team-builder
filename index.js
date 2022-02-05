@@ -4,12 +4,24 @@ const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const { writeFile, copyFile } = require('./lib/generateFile.js');
 const generateHTML = require('./src/html-template.js');
+const { truncate } = require('fs');
 let id = 0;
 
 function generateid() {
     id++;
     return id;
 }
+
+function validatePhone(phone){
+    const officeNum = /^\d{10}$/
+    return officeNum.test(phone)
+}
+
+function validateEmail(email){
+    const ofEmail = /.+@.+\..+/
+    return ofEmail.test(email)
+}
+
 
 const promptManager = () => {
     return inquirer.prompt([
@@ -18,7 +30,7 @@ const promptManager = () => {
             name: 'managerName',
             message: "Please enter the manager's name: (Required)",
             validate: managerName => { 
-                if (managerName.length <= 0)return"Please enter a managers name!"
+                if (managerName.length <= 0 &&  managerName.length >= 20 )return"Please enter a valid name!"
 
                 return true
             }
@@ -28,7 +40,7 @@ const promptManager = () => {
             name: 'managerEmail',
             message: "Please enter the manager's Email: (Required)",
             validate: managerEmail => {
-                if (managerEmail.length <= 0)return"Please enter a managers email!"
+                if (!validateEmail(managerEmail))return"Please enter a managers email!"
                 return true
             }
         },
@@ -37,7 +49,7 @@ const promptManager = () => {
             name: 'managerNumber',
             message: "Please enter the manager's office number: (Required)",
             validate: managerNumber => {
-                if (managerNumber.length <= 0)return"Please enter the office managers number!"
+                if (!validatePhone(managerNumber))return"Please enter a valid phone number without dashes!"
                 return true
 
             }
@@ -92,12 +104,9 @@ const promptEmployee = employeeData => {
                 message: "Enter github username: (Required)",
                 when: role => role.employeeRole === 'Engineer',
                 validate: github => {
-                    if (github) {
-                        return true;
-                    } else {
-                        console.log("Please enter a github username!");
-                        return false;
-                    }
+
+                    if(github <= 0)return "Please enter a github username!"
+                    return true
                 }
             },
             {
@@ -106,12 +115,8 @@ const promptEmployee = employeeData => {
                 message: "Enter school name: (Required)",
                 when: role => role.employeeRole === 'Intern',
                 validate: school => {
-                    if (school) {
-                        return true;
-                    } else {
-                        console.log("Please enter a School Name!");
-                        return false;
-                    }
+                    if(school <= 0) return "Please enter school name!"
+                    return true
                 }
             }
         ])
