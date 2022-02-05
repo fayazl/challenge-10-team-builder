@@ -62,12 +62,9 @@ const promptEmployee = employeeData => {
                 message: "Please enter the employee's name: (Required)",
                 when: confirmEmployee => confirmEmployee.newEmployee,
                 validate: name => {
-                    if (name) {
-                        return true;
-                    } else {
-                        console.log("Please enter a name!");
-                        return false;
-                    }
+
+                    if(name.length <= 0)return "Please enter the employee's name!"
+                    return true 
                 }
             },
             {
@@ -76,12 +73,10 @@ const promptEmployee = employeeData => {
                 message: "Please enter the employee's Email: (Required)",
                 when: confirmEmployee => confirmEmployee.newEmployee,
                 validate: email => {
-                    if (email) {
-                        return true;
-                    } else {
-                        console.log("Please enter a Email!");
-                        return false;
-                    }
+
+                    if(email.length <= 0)return "Please enter the employee's email!"
+                    return true
+                    
                 }
             },
             {
