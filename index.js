@@ -17,13 +17,16 @@ const promptManager = () => {
             type: 'input',
             name: 'managerName',
             message: "Please enter the manager's name: (Required)",
-            validate: managerName => {
-                if (managerName) {
-                    return true;
-                } else {
-                    console.log("Please enter a manager's name!")
-                    return false;
-                }
+            validate: managerName => { 
+                if (managerName.length <= 0)return"Please enter a managers name!"
+
+                return true
+                // if (managerName) {
+                //     return true;
+                // } else {
+                //     console.log("Please enter a manager's name!")
+                //     return false;
+                // }
             }
         },
         {
