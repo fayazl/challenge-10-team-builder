@@ -21,12 +21,6 @@ const promptManager = () => {
                 if (managerName.length <= 0)return"Please enter a managers name!"
 
                 return true
-                // if (managerName) {
-                //     return true;
-                // } else {
-                //     console.log("Please enter a manager's name!")
-                //     return false;
-                // }
             }
         },
         {
@@ -34,12 +28,8 @@ const promptManager = () => {
             name: 'managerEmail',
             message: "Please enter the manager's Email: (Required)",
             validate: managerEmail => {
-                if (managerEmail) {
-                    return true;
-                } else {
-                    console.log("Please enter a manager's Email!")
-                    return false;
-                }
+                if (managerEmail.length <= 0)return"Please enter a managers email!"
+                return true
             }
         },
         {
@@ -47,12 +37,9 @@ const promptManager = () => {
             name: 'managerNumber',
             message: "Please enter the manager's office number: (Required)",
             validate: managerNumber => {
-                if (managerNumber) {
-                    return true;
-                } else {
-                    console.log("Please enter a manager's office number!")
-                    return false;
-                }
+                if (managerNumber.length <= 0)return"Please enter the office managers number!"
+                return true
+
             }
         }
     ])
